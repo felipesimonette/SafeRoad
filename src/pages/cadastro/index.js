@@ -11,17 +11,20 @@ import {
 import style from './style';
 import LinearGradient from 'react-native-linear-gradient';
 
-export default function Login({navigation}) {
+export default function Login() {
   const [user, setUser] = useState('');
   const [senha, setSenha] = useState('');
 
   function ValidaLogin() {
     if (user === 'admin' && senha === 'admin') {
       Alert.alert('Login efetuado com sucesso.');
-      navigation.navigate('Chamados');
     } else {
       Alert.alert('Usuário ou senha incorretos.');
     }
+  }
+
+  function ValidaCadastro() {
+    Alert.alert('Cadastro efetuado com sucesso.');
   }
 
   return (
@@ -30,39 +33,23 @@ export default function Login({navigation}) {
       style={style.container}>
       <StatusBar backgroundColor="#FF4500"></StatusBar>
       <View style={style.body}>
-        <Image
-          style={style.imagemLogo}
-          source={require('../../assets/images/logoSafeRoad.png')}></Image>
+        <Image></Image>
         <View>
           <TextInput
             style={style.input}
-            placeholder="USUÁRIO"
-            onChangeText={setUser}></TextInput>
+            placeholder="NOME COMPLETO"></TextInput>
+          <TextInput style={style.input} placeholder="E-MAIL"></TextInput>
+          <TextInput style={style.input} placeholder="CPF"></TextInput>
+          <TextInput style={style.input} placeholder="USUÁRIO"></TextInput>
           <TextInput
             style={style.input}
             placeholder="SENHA"
-            secureTextEntry={true}
-            onChangeText={setSenha}></TextInput>
+            secureTextEntry={true}></TextInput>
           <TouchableOpacity
             style={style.button}
             activeOpacity={0.5}
-            onPress={ValidaLogin}>
-            <Text style={style.Textbutton}>CONECTAR</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('Cadastro')}
-            style={{}}
-            activeOpacity={0.5}>
-            <Text
-              style={{
-                color: '#8B008B',
-                alignSelf: 'center',
-                textDecorationLine: 'underline',
-                fontSize: 21,
-                fontWeight: 'bold',
-              }}>
-              CADASTRAR
-            </Text>
+            onPress={ValidaCadastro}>
+            <Text style={style.Textbutton}>CADASTRAR</Text>
           </TouchableOpacity>
         </View>
       </View>
