@@ -5,12 +5,12 @@ export default StyleSheet.create({
   container: {flex: 1},
   input: {
     backgroundColor: 'rgba(255,255,255,0.8)',
-    borderRadius: 15,
+    borderRadius: 10,
     marginHorizontal: 25,
-    marginVertical: 12,
+    marginVertical: 10,
     textAlign: 'center',
     fontWeight: 'bold',
-    fontSize: 25,
+    fontSize: 15,
 
   },
 

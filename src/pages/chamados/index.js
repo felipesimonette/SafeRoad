@@ -21,7 +21,7 @@ export default function Chamados() {
     <LinearGradient
       colors={['#FF8C00', '#FFA500', '#FFD700']}
       style={style.container}>
-      <StatusBar backgroundColor="#FF4500"></StatusBar>
+      <StatusBar backgroundColor="#FF8C00"></StatusBar>
       <View style={style.body}>
         <View>
         <Text style={style.Textbutton}>Digite o reporte:</Text>
