@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {
   View,
   StatusBar,
@@ -8,18 +8,72 @@ import {
   Alert,
   Image,
   Dimensions,
+  Animated,
+  Keyboard,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import style from './style';
 import {useDispatch} from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
+const {timing, Value} = Animated;
+
 export default function Login({navigation}) {
   const dispatch = useDispatch();
-  const {width} = Dimensions.get('window');
   const {height} = Dimensions.get('window');
 
   const [user, setUser] = useState('');
+  const usertInputScale = new Value(1);
+
   const [senha, setSenha] = useState('');
+  const senhaRef = useRef(null);
+  const senhaInputScale = new Value(1);
+
+  const imageScale = new Value(1);
+
+  useEffect(() => {
+    Keyboard.addListener('keyboardDidShow', _keyboardDidShow);
+    Keyboard.addListener('keyboardDidHide', _keyboardDidHide);
+
+    // cleanup function
+    return () => {
+      Keyboard.removeListener('keyboardDidShow', _keyboardDidShow);
+      Keyboard.removeListener('keyboardDidHide', _keyboardDidHide);
+    };
+  }, []);
+
+  const _keyboardDidShow = () => {
+    handleImageScale(0.5);
+  };
+
+  const _keyboardDidHide = () => {
+    handleImageScale(1);
+  };
+
+  const handleImageScale = (value) => {
+    timing(imageScale, {
+      toValue: value,
+      timing: 300,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const handleInputScale = (inputType, value) => {
+    console.log(inputType == 'user');
+    if (inputType == 'user') {
+      timing(usertInputScale, {
+        toValue: value,
+        timing: 500,
+        useNativeDriver: true,
+      }).start();
+    } else {
+      timing(senhaInputScale, {
+        toValue: value,
+        timing: 500,
+        useNativeDriver: true,
+      }).start();
+    }
+  };
 
   function ValidaLogin() {
     if (user === 'admin' && senha === 'admin') {
@@ -31,131 +85,81 @@ export default function Login({navigation}) {
   }
 
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: '#FF8C00',
-        padding: 20,
-        // justifyContent: 'space-evenly',
-      }}>
-      <StatusBar backgroundColor="#FF8C00"></StatusBar>
-      <View
-        style={{
-          height: height,
-          width: height,
-          borderWidth: 100,
-          borderColor: '#c9c9c9',
-          transform: [{rotate: '45deg'}],
-          position: 'absolute',
-          bottom: 0,
-          top: 0,
-          right: 200,
-          zIndex: 1,
-        }}
-      />
-      <View style={{zIndex: 10, flex: 1, justifyContent: 'space-evenly'}}>
-        <Image
-          source={require('../../assets/images/login-image.png')}
-          style={{width: 300, height: 100, alignSelf: 'center'}}
-        />
-        <View>
-          <View style={{flexDirection: 'row'}}>
-            <View
-              style={{
-                backgroundColor: 'rgba(255,255,255, 0.8)',
-                justifyContent: 'center',
-                alignItems: 'center',
-                width: '15%',
-                borderTopLeftRadius: 5,
-                borderBottomLeftRadius: 5,
-              }}>
-              <Icon name="user-alt" size={20} color="#969696" />
-            </View>
-            <TextInput
-              placeholder="USUÁRIO"
-              // autoCapitalize={false}
-              style={{
-                backgroundColor: 'rgba(255,255,255, 0.8)',
-                flex: 1,
-                borderTopRightRadius: 5,
-                borderBottomRightRadius: 5,
-              }}
-            />
-          </View>
-          <View style={{flexDirection: 'row', marginTop: 20}}>
-            <View
-              style={{
-                backgroundColor: 'rgba(255,255,255, 0.8)',
-                justifyContent: 'center',
-                alignItems: 'center',
-                width: '15%',
-                borderTopLeftRadius: 5,
-                borderBottomLeftRadius: 5,
-              }}>
-              <Icon name="lock" size={20} color="#969696" />
-            </View>
-            <TextInput
-              placeholder="SENHA"
-              secureTextEntry={true}
-              style={{
-                backgroundColor: 'rgba(255,255,255, 0.8)',
-                flex: 1,
-                borderTopRightRadius: 5,
-                borderBottomRightRadius: 5,
-              }}
-            />
-          </View>
-
-          <TouchableOpacity
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <View style={style.container}>
+        <StatusBar backgroundColor="#FF8C00"></StatusBar>
+        <View style={style.backgroundArrow(height)} />
+        <View style={style.body}>
+          <Animated.Image
+            source={require('../../assets/images/login-image.png')}
             style={{
-              backgroundColor: '#fff',
-              paddingHorizontal: 30,
-              paddingVertical: 15,
-              marginTop: 20,
+              width: 300,
+              height: 100,
               alignSelf: 'center',
-              borderRadius: 5,
-            }}>
-            <Text style={{fontSize: 17, color: '#4F4F4F'}}>ENTRAR</Text>
-          </TouchableOpacity>
-
-          <View
-            style={{
-              // flexDirection: 'row',
-              // justifyContent: 'space-between',
-              alignSelf: 'center',
-              alignItems: 'center',
-              marginTop: 20,
-            }}>
-            <TouchableOpacity>
+              transform: [{scale: imageScale}],
+            }}
+          />
+          <View>
+            <Animated.View
+              style={{
+                flexDirection: 'row',
+                marginTop: 20,
+                transform: [{scale: usertInputScale}],
+              }}>
+              <View style={style.iconInput}>
+                <Icon name="user-alt" size={20} color="#969696" />
+              </View>
+              <TextInput
+                placeholder="USUÁRIO"
+                autoCapitalize="none"
+                onFocus={() => handleInputScale('user', 1.05)}
+                onBlur={() => handleInputScale('user', 1)}
+                style={style.defaultInput}
+                onChangeText={setUser}
+                onSubmitEditing={() => senhaRef.current.focus()}
+              />
+            </Animated.View>
+            <Animated.View
+              style={{
+                flexDirection: 'row',
+                marginTop: 20,
+                transform: [{scale: senhaInputScale}],
+              }}>
+              <View style={style.iconInput}>
+                <Icon name="lock" size={20} color="#969696" />
+              </View>
+              <TextInput
+                placeholder="SENHA"
+                ref={senhaRef}
+                secureTextEntry={true}
+                onFocus={() => handleInputScale('', 1.05)}
+                onBlur={() => handleInputScale('', 1)}
+                style={style.defaultInput}
+                onChangeText={setSenha}
+                onSubmitEditing={ValidaLogin}
+              />
+            </Animated.View>
+            <TouchableOpacity style={style.button} onPress={ValidaLogin}>
+              <Text style={{fontSize: 17, color: '#4F4F4F'}}>ENTRAR</Text>
+            </TouchableOpacity>
+            <View style={style.footer}>
+              <TouchableOpacity onPress={() => navigation.navigate('Cadastro')}>
+                <Text style={style.hyperLink}>Cadastrar-se</Text>
+              </TouchableOpacity>
               <Text
                 style={{
                   fontSize: 15,
-                  color: 'blue',
-                  textDecorationLine: 'underline',
+                  color: '#000',
                 }}>
-                Cadastrar-se
+                ou
               </Text>
-            </TouchableOpacity>
-            <Text
-              style={{
-                fontSize: 15,
-                color: '#000',
-              }}>
-              ou
-            </Text>
-            <TouchableOpacity>
-              <Text
-                style={{
-                  fontSize: 15,
-                  color: 'blue',
-                  textDecorationLine: 'underline',
-                }}>
-                Recuperar Senha
-              </Text>
-            </TouchableOpacity>
+              <TouchableOpacity>
+                <Text style={style.hyperLink}>Recuperar Senha</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 }
