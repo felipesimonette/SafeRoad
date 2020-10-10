@@ -10,15 +10,18 @@ import {
 } from 'react-native';
 import style from './style';
 import LinearGradient from 'react-native-linear-gradient';
+import {useDispatch} from 'react-redux';
 
 export default function Login({navigation}) {
+  const dispatch = useDispatch();
+
   const [user, setUser] = useState('');
   const [senha, setSenha] = useState('');
 
   function ValidaLogin() {
     if (user === 'admin' && senha === 'admin') {
       Alert.alert('Login efetuado com sucesso.');
-      navigation.navigate('Chamados');
+      dispatch({type: 'LOGIN', login: true});
     } else {
       Alert.alert('Usuário ou senha incorretos.');
     }

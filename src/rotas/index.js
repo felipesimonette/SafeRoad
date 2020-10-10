@@ -1,21 +1,16 @@
-import {createStackNavigator} from '@react-navigation/stack';
-import Cadastro from '../pages/cadastro';
-import Login from '../pages/login';
-import Chamados from '../pages/chamados';
 import React from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import {useSelector} from 'react-redux';
+import Chamados from '../pages/chamados';
+import Menu from '../pages/menu';
 
-const Stack = createStackNavigator();
+import LoginRotas from './loginRotas';
 
-export function MyStack() {
+export default function Rotas() {
+  const login = useSelector((state) => state.login);
   return (
-    <Stack.Navigator
-      initialRouteName="Login"
-      screenOptions={() => ({
-        headerShown: false,
-      })}>
-      <Stack.Screen name="Login" component={Login} />
-      <Stack.Screen name="Cadastro" component={Cadastro} />
-      <Stack.Screen name="Chamados" component={Chamados} />
-    </Stack.Navigator>
+    <NavigationContainer>
+      {login ? <Menu /> : <LoginRotas />}
+    </NavigationContainer>
   );
 }
