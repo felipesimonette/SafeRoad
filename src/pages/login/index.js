@@ -12,15 +12,19 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
 } from 'react-native';
-import style from './style';
 import {useDispatch} from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+
+import style from './style';
+import InformationModal from '../../components/informationModal';
 
 const {timing, Value} = Animated;
 
 export default function Login({navigation}) {
   const dispatch = useDispatch();
   const {height} = Dimensions.get('window');
+  const [showModal, setShowModal] = useState(false);
+  const [modalType, setModalType] = useState('loading');
 
   const [user, setUser] = useState('');
   const usertInputScale = new Value(1);
@@ -76,17 +80,24 @@ export default function Login({navigation}) {
   };
 
   function ValidaLogin() {
+    setShowModal(true);
     if (user === 'admin' && senha === 'admin') {
-      Alert.alert('Login efetuado com sucesso.');
       dispatch({type: 'LOGIN', login: true});
+      setShowModal(false);
     } else {
-      Alert.alert('Usuário ou senha incorretos.');
+      setModalType('error');
     }
   }
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={style.container}>
+        <InformationModal
+          type={modalType}
+          visible={showModal}
+          errorText={'Usuário ou senha inválidos'}
+          setVisible={setShowModal}
+        />
         <StatusBar backgroundColor="#FF8C00"></StatusBar>
         <View style={style.backgroundArrow(height)} />
         <View style={style.body}>
