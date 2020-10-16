@@ -1,39 +1,24 @@
-import React, {useState} from 'react';
-import {
-  View,
-  StatusBar,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  Alert,
-  Image,
-} from 'react-native';
-import style from './style';
-import LinearGradient from 'react-native-linear-gradient';
-
-export default function Chamados() {
-
-  function ValidaReporte() {
-    Alert.alert('Report efetuado com sucesso.');
-  }
-
+import React from 'react';
+import {View, Button} from 'react-native';
+import {useDispatch} from 'react-redux';
+import MapView from 'react-native-maps';
+// AIzaSyCFq72H583Y5spfbemzdHauG6HW2R8-eh0
+export default function Menu() {
+  const dispatch = useDispatch();
   return (
-    <LinearGradient
-      colors={['#FF8C00', '#FFA500', '#FFD700']}
-      style={style.container}>
-      <StatusBar backgroundColor="#FF8C00"></StatusBar>
-      <View style={style.body}>
-        <View>
-        <Text style={style.Textbutton}>Digite o reporte:</Text>
-          <TextInput style={style.input} placeholder=" "></TextInput>
-          <TouchableOpacity
-            style={style.button}
-            activeOpacity={0.5}
-            onPress={ValidaReporte}>
-            <Text style={style.Textbutton}>REPORTAR</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </LinearGradient>
+    <View style={{flex: 1}}>
+      <MapView
+        style={{flex: 1}}
+        initialRegion={{
+          latitude: 37.78825,
+          longitude: -122.4324,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        }}
+      />
+      <Button
+        title="SAIR"
+        onPress={() => dispatch({type: 'LOGIN', action: false})}></Button>
+    </View>
   );
 }
