@@ -1,62 +1,32 @@
 import React from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/Ionicons';
 
-export default function BottomBar({state, descriptors, navigation}) {
-  const focusedOptions = descriptors[state.routes[state.index].key].options;
-
-  if (focusedOptions.tabBarVisible === false) {
-    return null;
-  }
-
+export default function BottomBar({descriptors}) {
   return (
     <View style={{flexDirection: 'row'}}>
-      {state.routes.map((route, index) => {
-        const {options} = descriptors[route.key];
-        const label =
-          options.tabBarLabel !== undefined
-            ? options.tabBarLabel
-            : options.title !== undefined
-            ? options.title
-            : route.name;
+      {Object.values(descriptors).map((element, index) => {
+        const {options} = element;
+        const isFocused = element.navigation.isFocused(options.name);
+        const iconName = isFocused ? options.focusIcon : options.notFocusIcon;
 
-        const isFocused = state.index === index;
-
-        const onPress = () => {
-          const event = navigation.emit({
-            type: 'tabPress',
-            target: route.key,
-            canPreventDefault: true,
-          });
-
-          if (!isFocused) {
-            navigation.navigate(route.name);
-          }
+        const handleButtonPress = () => {
+          element.navigation.navigate(options.name);
         };
-
-        const onLongPress = () => {
-          navigation.emit({
-            type: 'tabLongPress',
-            target: route.key,
-          });
-        };
-
         return (
           <TouchableOpacity
-            //accessibilityRole="button"
-            // accessibilityState={isFocused ? { selected: true } : {}}
-            // accessibilityLabel={options.tabBarAccessibilityLabel}
-            //  testID={options.tabBarTestID}
-            onPress={onPress}
-            onLongPress={onLongPress}
-            style={{
-              flex: 1,
-              height: 60,
-              borderWidth: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <Text style={{color: isFocused ? '#673ab7' : '#222'}}>{label}</Text>
+            activeOpacity={1}
+            key={index}
+            style={{flex: 1, padding: 5, alignItems: 'center'}}
+            onPress={handleButtonPress}>
+            <Icon name={iconName} size={isFocused ? 22 : 20} />
+            <Text
+              style={[
+                {textAlign: 'center'},
+                isFocused ? {fontWeight: 'bold'} : {},
+              ]}>
+              {options?.title}
+            </Text>
           </TouchableOpacity>
         );
       })}

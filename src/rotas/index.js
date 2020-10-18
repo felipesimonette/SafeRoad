@@ -9,7 +9,7 @@ export default function Rotas() {
   const login = useSelector((state) => state.login);
   return (
     <NavigationContainer>
-      {login ? <MenuRotas /> : <LoginRotas />}
+      {true ? <MenuRotas /> : <LoginRotas />}
     </NavigationContainer>
   );
 }
