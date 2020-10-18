@@ -18,40 +18,31 @@ export default function MenuRotas() {
         <Tab.Screen
           name="mapa"
           component={Chamados}
-          options={({navigation}) => {
-            return {
-              name: 'mapa',
-              title: 'mapa',
-              notFocusIcon: 'map-outline',
-              focusIcon: 'map',
-              isFocused: navigation.isFocused,
-            };
+          options={{
+            name: 'mapa',
+            title: 'mapa',
+            notFocusIcon: 'map-outline',
+            focusIcon: 'map',
           }}
         />
         <Tab.Screen
           name="meusChamados"
           component={MeusChamados}
-          options={({navigation}) => {
-            return {
-              name: 'meusChamados',
-              title: 'Meus Chamados',
-              notFocusIcon: 'build-outline',
-              focusIcon: 'build',
-              isFocused: navigation.isFocused,
-            };
+          options={{
+            name: 'meusChamados',
+            title: 'Meus Chamados',
+            notFocusIcon: 'build-outline',
+            focusIcon: 'build',
           }}
         />
         <Tab.Screen
           name="configuracoes"
           component={Configuracoes}
-          options={({navigation}) => {
-            return {
-              name: 'configuracoes',
-              title: 'Configurações',
-              notFocusIcon: 'settings-outline',
-              focusIcon: 'settings',
-              isFocused: navigation.isFocused,
-            };
+          options={{
+            name: 'configuracoes',
+            title: 'Configurações',
+            notFocusIcon: 'settings-outline',
+            focusIcon: 'settings',
           }}
         />
       </Tab.Navigator>
