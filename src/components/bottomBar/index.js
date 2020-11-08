@@ -19,10 +19,10 @@ export default function BottomBar({descriptors}) {
             key={index}
             style={{flex: 1, padding: 5, alignItems: 'center'}}
             onPress={handleButtonPress}>
-            <Icon name={iconName} size={isFocused ? 22 : 20} />
+            <Icon name={iconName} size={isFocused ? 22 : 20} color="#808080" />
             <Text
               style={[
-                {textAlign: 'center'},
+                {textAlign: 'center', color: '#808080'},
                 isFocused ? {fontWeight: 'bold'} : {},
               ]}>
               {options?.title}

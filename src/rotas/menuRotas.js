@@ -20,7 +20,7 @@ export default function MenuRotas() {
           component={Chamados}
           options={{
             name: 'mapa',
-            title: 'mapa',
+            title: 'Mapa',
             notFocusIcon: 'map-outline',
             focusIcon: 'map',
           }}

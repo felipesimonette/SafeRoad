@@ -9,9 +9,9 @@ import {
 import MapView, {Marker} from 'react-native-maps';
 import Geolocation from 'react-native-geolocation-service';
 import Icon from 'react-native-vector-icons/Feather';
-//  import {Dropdown} from 'react-native-material-dropdown';
 
 import style from './style';
+import NovoChamado from '../../components/NovoChamado';
 
 export default function Menu() {
   const [hasLocationPermission, setHasLocationPermission] = useState(false);
@@ -19,18 +19,7 @@ export default function Menu() {
   const [userPositonAvailiable, setUserPositonAvailiable] = useState(false);
   const [latitude, setLatitude] = useState(0);
   const [longitude, setLongitude] = useState(0);
-
-  // let data = [
-  //   {
-  //     value: 'Banana',
-  //   },
-  //   {
-  //     value: 'Mango',
-  //   },
-  //   {
-  //     value: 'Pear',
-  //   },
-  // ];
+  const [showNovoChamado, setShowNovoChamado] = useState(false);
 
   async function getUserPermission() {
     try {
@@ -88,49 +77,49 @@ export default function Menu() {
               coordinate={{latitude: latitude, longitude: longitude}}
               title="Sua localização"></Marker>
           </MapView>
-          <View
+
+          <TouchableOpacity
+            onPress={() => setShowNovoChamado(true)}
             style={{
               position: 'absolute',
-              backgroundColor: '#dadada',
-              right: 10,
-              left: 10,
-              bottom: 10,
-              borderRadius: 5,
+              right: 20,
+              bottom: 20,
+              backgroundColor: '#FF8C00',
+              borderRadius: 50,
+              padding: 5,
               elevation: 5,
             }}>
-            {/* <Dropdown label="Favorite Fruit" data={data} /> */}
-            <TouchableOpacity
-              style={{
-                backgroundColor: '#FF8C00',
-                alignSelf: 'flex-end',
-                borderRadius: 5,
-                // elevation: 5,
-              }}>
-              <Icon name="plus" color="#fff" size={45} />
-            </TouchableOpacity>
-          </View>
+            <Icon name="plus" color="#fff" size={45} />
+          </TouchableOpacity>
         </>
       ) : (
         <View>
           <Text>Sem posição do usuario</Text>
         </View>
       )}
-      <Modal
-        transparent={true}
-        visible={showUnauthorizedModal}
-        animationType="none">
-        <View style={style.unauthorizedContainer}>
-          <Text style={style.unauthorizedText}>
-            Sem aplicativo para você amigão!!!
-          </Text>
-          <Text style={style.unauthorizedText}>Saca da autorização.</Text>
-          <TouchableOpacity
-            style={{backgroundColor: '#fff', padding: 10}}
-            onPress={getUserPermission}>
-            <Text>TENTAR NOVAMENTE</Text>
-          </TouchableOpacity>
-        </View>
-      </Modal>
+      {
+        /* Modal que é exibido quando o usuario nao permite o app pegar a sua localizaçã */
+        <Modal
+          transparent={true}
+          visible={showUnauthorizedModal}
+          animationType="none">
+          <View style={style.unauthorizedContainer}>
+            <Text style={style.unauthorizedText}>
+              Sem aplicativo para você amigão!!!
+            </Text>
+            <Text style={style.unauthorizedText}>Saca da autorização.</Text>
+            <TouchableOpacity
+              style={{backgroundColor: '#fff', padding: 10}}
+              onPress={getUserPermission}>
+              <Text>TENTAR NOVAMENTE</Text>
+            </TouchableOpacity>
+          </View>
+        </Modal>
+      }
+      <NovoChamado
+        showNovoChamado={showNovoChamado}
+        setShowNovoChamado={setShowNovoChamado}
+      />
     </View>
   );
 }
