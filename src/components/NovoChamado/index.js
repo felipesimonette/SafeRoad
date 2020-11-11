@@ -15,7 +15,7 @@ export default function NovoChamado({showNovoChamado, setShowNovoChamado}) {
   const {width} = Dimensions.get('screen');
   const [optionSelected, setOptionSelected] = useState(null);
   const [inputOutros, setInputOutros] = useState('');
-  
+
   const itemsDropDownPicker = [
     // {label: 'Selecione uma opção...', value: 0, hidden: true},
     {label: 'Meu carro quebrou', value: 1},
@@ -79,23 +79,21 @@ export default function NovoChamado({showNovoChamado, setShowNovoChamado}) {
                 defaultValue={optionSelected}
                 onChangeItem={(items) => setOptionSelected(items.value)}
               />
-              {optionSelected == 6 ? (
-                <TextInput
-                  onChangeText={setInputOutros}
-                  style={{
-                    backgroundColor: '#fff',
-                    marginTop: 20,
-                    borderRadius: 5,
-                    borderWidth: 1,
-                    borderColor: '#dadada',
-                    height: 50,
-                    elevation: 5,
-                  }}
-                  placeholder="Digite oque aconteceu..."
-                />
-              ) : (
-                <View style={{height: 50, marginTop: 20}}></View>
-              )}
+
+              <TextInput
+                onChangeText={setInputOutros}
+                style={{
+                  backgroundColor: '#fff',
+                  marginTop: 20,
+                  borderRadius: 5,
+                  borderWidth: 1,
+                  borderColor: '#dadada',
+                  height: 50,
+                  elevation: 5,
+                }}
+                placeholder=" Digite o ocorrido..."
+              />
+
               <TouchableOpacity
                 style={{
                   marginTop: 20,

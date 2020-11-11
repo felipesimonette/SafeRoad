@@ -4,6 +4,7 @@ import {
   View,
   TouchableOpacity,
   Text,
+  ActivityIndicator,
   Modal,
 } from 'react-native';
 import MapView, {Marker} from 'react-native-maps';
@@ -63,6 +64,7 @@ export default function Menu() {
 
   return (
     <View style={{flex: 1}}>
+      {/* userPositonAvailiable */}
       {userPositonAvailiable ? (
         <>
           <MapView
@@ -83,7 +85,7 @@ export default function Menu() {
             style={{
               position: 'absolute',
               right: 20,
-              bottom: 20,
+              bottom: 90,
               backgroundColor: '#FF8C00',
               borderRadius: 50,
               padding: 5,
@@ -93,8 +95,9 @@ export default function Menu() {
           </TouchableOpacity>
         </>
       ) : (
-        <View>
-          <Text>Sem posição do usuario</Text>
+        <View style={{flex:1, justifyContent:"center", alignItems:"center"}}>
+          <ActivityIndicator color="orange" size="large"></ActivityIndicator>
+          <Text style={{color:"black"}}>Procurando sua localização</Text>
         </View>
       )}
       {

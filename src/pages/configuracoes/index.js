@@ -6,7 +6,7 @@ export default function Configuracoes() {
   const dispatch = useDispatch();
 
   return (
-    <View style={{flex: 1, backgroundColor: '#fff'}}>
+    <View style={{flex: 1, backgroundColor: '#FF8C00'}}>
       <Button
         title="SAIR"
         onPress={() => dispatch({type: 'LOGIN', action: false})}></Button>
