@@ -6,6 +6,7 @@ import {
   Text,
   ActivityIndicator,
   Modal,
+  StatusBar
 } from 'react-native';
 import MapView, {Marker} from 'react-native-maps';
 import Geolocation from 'react-native-geolocation-service';
@@ -84,8 +85,8 @@ export default function Menu() {
             onPress={() => setShowNovoChamado(true)}
             style={{
               position: 'absolute',
-              right: 20,
-              bottom: 90,
+              right: 30,
+              bottom: 30,
               backgroundColor: '#FF8C00',
               borderRadius: 50,
               padding: 5,

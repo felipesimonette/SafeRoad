@@ -30,7 +30,7 @@ export default function MenuRotas() {
           component={MeusChamados}
           options={{
             name: 'meusChamados',
-            title: 'Meus Chamados',
+            title: 'Chamados',
             notFocusIcon: 'build-outline',
             focusIcon: 'build',
           }}

@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 import React, {useEffect, useState} from 'react';
 import {
   View,
@@ -95,6 +96,7 @@ export default function NovoChamado({showNovoChamado, setShowNovoChamado}) {
               />
 
               <TouchableOpacity
+              activeOpacity={0.5}
                 style={{
                   marginTop: 20,
                   alignSelf: 'center',
