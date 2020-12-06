@@ -41,7 +41,7 @@ export default function MeusChamados() {
       Tipo: 'Outros',
       Data: '16/12/2069',
       Hora: '16:09',
-      Relatorio: 'gG Ximigão',
+      Relatorio: 'Teste Relatorio',
     },
     {
       numero: '11811',
